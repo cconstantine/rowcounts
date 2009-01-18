@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="static/javascript/counter.js" type="text/javascript">
+</script>
+
+{% endblock %}
+
+{% block body %}
+<div class="inbox">
+  <form action="/actions/modifyProject.do" method="post">
+    <div class="table">
+      <table>
+	<tr>
+	  <th>Project Description</th>
+	  <th>Current Row Count</th>
+	  <th></th>
+	</tr>
+	<tr>
+	  <td><input name="id" type="hidden" value="{{ project.get_id }}"/>
+	    {{ project.description }} </td>
+	  <td> <input id="_row" name="row" value="{{ project.row }}"/></td>
+	  <td class="update">
+	    <span class="button"><input type="submit" name="action" value="Save"/> </span>
+	    <span class="button"><input type="submit" name="action" value="Delete"/> </span>
+	  </td>
+	</tr>
+      </table>
+    </div>
+    <div id="spaceCounter"
+      class="counter"
+      onkeydown="onKeyDown(event)"
+      onload="divUnselected()"
+      onFocus="setMessage('Hit space to increment count')"
+      onBlur="setMessage('Click here to start counting')"
+      tabindex="1">
+      Click here to start counting
+    <div id="_text" class="count">{{ project.row }} </div>
+    </div>
+    </form>
+    </div>	
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

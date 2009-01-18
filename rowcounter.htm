@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+    <title>Row Counter</title>
+    <script type="text/javascript">
+      // From http://www.quirksmode.org/js/cookies.html
+      function createCookie(name,value,days) 
+      {
+      if (days) {
+      var date = new Date();
+      date.setTime(date.getTime()+(days*24*60*60*1000));
+      var expires = "; expires="+date.toGMTString();
+      }
+      else var expires = "";
+      document.cookie = name+"="+value+expires+"; path=/";
+      }
+      
+      function divUnselected()
+      {
+        var _text = document.getElementById('_text');
+        _text.setText("Click here to start counting");
+      }
+      // From http://www.quirksmode.org/js/cookies.html
+      function readCookie(name) 
+      {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) 
+		      {
+		      var c = ca[i];
+		      while (c.charAt(0)==' ') 
+		      c = c.substring(1,c.length);
+		      if (c.indexOf(nameEQ) == 0) 
+		      return c.substring(nameEQ.length,c.length);
+		      }
+		      return null;
+		      }
+		      
+		      // From http://www.quirksmode.org/js/cookies.html
+			function eraseCookie(name) 
+			{	createCookie(name,"",-1) ; }
+
+			var iCount = 0 ;
+			var cookieDays = 150 ;
+		        var textPrefix = 'Click here to start counting';
+
+			function AddOne()
+			{
+				var _div = document.getElementById('_text');
+				iCount = iCount + 1;
+		                _div.childNodes[0].nodeValue = 'Row: ' + iCount;
+		                //var _element = document.createElement( 'div' ) ;
+				//var _node = document.createTextNode( 'Row ' + iCount ) ;
+				//_element.appendChild( _node ) ;
+				//_div.appendChild( _element ) ;
+			}
+
+			function warnBeforeClosingBrowser()
+			{	return "If you do you will lose your row count." ; }
+
+			function onLoadPage()
+			{
+				var txtProject = document.getElementById('txtProject');
+				var txtRow = document.getElementById('txtRow');
+	
+				if (txtProject == null || txtRow == null)
+					return ;
+	
+				var cookie = readCookie('LastProject') ;
+				txtProject.value = (cookie == null)?"MyProject":cookie ;
+	
+				cookie = readCookie('LastProjectRow') ;
+				
+				iCount = (cookie==null)?0:parseInt(cookie) ;
+				
+				if (isNaN(iCount))
+					iCount = 0 ;
+				
+				txtRow.value = iCount ;
+			}
+
+			function onKeyDown( evt )
+			{
+				var keynum = (window.event)?evt.keyCode:evt.which;
+				if (keynum==32)
+					AddOne()
+			}
+
+			function checkKey(evt, input)
+			{
+				var keynum = (evt.which) ? evt.which : event.keyCode
+				if (isDigit(keynum))
+					return true ;
+				if (keynum == 9 || keynum==13 )
+						setRow(input.value) ;
+				return false;
+			}
+			
+			function isDigit(keynum)
+			{
+				return (keynum >= 48 && keynum <= 58) || keynum == 32 || keynum == 8 || keynum == 9 || keynum == 46
+			}
+
+			function saveCookie()
+			{
+				var txtProject = document.getElementById('txtProject');
+				var name = (txtProject == null)?"MyProject":txtProject.value ;
+				createCookie('LastProject', name, cookieDays ) ;
+				createCookie('LastProjectRow', iCount, cookieDays ) ;
+			}
+			
+			function setRow(n)
+			{
+				iCount = (n==null||isNaN(n))?iCount:parseInt(n);
+				var _text = document.getElementById('_text');
+				var _element = document.createElement( 'div' ) ;
+				var _node = document.createTextNode( "-" ) ;
+				_element.appendChild( _node ) ;
+				_text.appendChild( _element ) ;
+				if (_text!=null)
+					_text.focus() ;
+			}
+								 
+			
+								  </script>
+  </head>
+  <body onunload="saveCookie()" onload="onLoadPage()" >
+    <noscript>
+      The row counter uses JavaScript, which is disabled in your browser.</noscript>
+    
+    <div style="font-size:.75em">Updated 2008.10.06: Added stalking, row reset</div>
+    <div style="padding-top:.25em;padding-bottom:.5em">
+      <span style="font-size:1.50em">Click space bar to count</span><br clear="all">
+    </div>
+    <div style="padding-top:.25em;padding-bottom:.5em">
+      Project&nbsp;<input type="text" id="txtProject" value="MyProject">&nbsp;
+      Last row:&nbsp;<input type="text" id="txtRow" onkeydown="return checkKey(event, this);" onchange="setRow(this.value);">
+      <input type="button" value="Restart" onclick="reset()" ID="btnRestart" NAME="btnRestart"  onclick="restart()">
+      <input type="button" value="Save" onclick="saveCookie">
+    </div>
+    
+    <div onkeydown="onKeyDown(event)" onload="divUnselected()" tabindex="1">Click here to start counting
+      <div id="_text"> </div>
+    </div>
+  </body>
+</html>
