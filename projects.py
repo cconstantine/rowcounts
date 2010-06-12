@@ -104,17 +104,19 @@ class ModifyProjectAction(BaseRequestHandler):
       self.redirect("/")
 
 class IncrementRowAction(BaseRequestHandler):
+  def incRow(self, project):
+    project.row += 1
+    project.put()
+    return project.row
+
   def post(self):
     id = db.Key(self.request.get('id'))
     user = users.get_current_user()
-
     project = Project.gql("where user = :user_id and __key__ = :project_id",
-                user_id=user, project_id=id).fetch(1)[0]
+                          user_id=user, project_id=id).fetch(1)[0]
 
     if project:
-      project.row += 1
-      project.put()
-      self.response.out.write(project.row)
+      self.response.out.write(db.run_in_transaction_custom_retries(1000,self.incRow, project))
 
 
 def main():

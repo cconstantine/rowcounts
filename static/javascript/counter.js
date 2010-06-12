@@ -3,8 +3,11 @@ google.load("jquery", "1.4.2");
 function onKeyDown( evt , id)
 {
     var keynum = (window.event)?evt.keyCode:evt.which;
-    
+
     if (keynum==32) {
+	rowCount = parseInt( $("div.count").html() );
+	$("div.count").html(rowCount + 1);
+
 	$.ajax({type: "POST",
 		    url: "/actions/IncrementRow.do",
 		    data: "id=" + id,
@@ -15,12 +18,18 @@ function onKeyDown( evt , id)
 
 function onIncrement( newRow )
 {
-    current_row = $("div.count").html();
-
-    $("div.count").html(newRow);
+    cRow = parseInt($("div.count").html());
     $("div.CounterMessage").html('Hit space to increment count ' +
-				 '(Previous ' +
-				 current_row + ')');
+				 '(Expected ' +
+				 cRow + ')');
+
+    cRow = parseInt($("div.count").html());
+    nRow = parseInt(newRow);
+
+    if (nRow > cRow)
+	{
+	    $("div.count").html(newRow);
+	}
 }
 
 function getRow()
