@@ -218,10 +218,12 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
   color: #676767;
 }
 
-.inbox .counter {
+.inbox .CounterMessage {
     text-align: center;
     font-weight: bold;
 }
+
 .inbox .count {
+    text-align: center;
     font-size: 200pt;
 }

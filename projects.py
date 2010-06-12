@@ -103,6 +103,19 @@ class ModifyProjectAction(BaseRequestHandler):
       
       self.redirect("/")
 
+class IncrementRowAction(BaseRequestHandler):
+  def post(self):
+    id = db.Key(self.request.get('id'))
+    user = users.get_current_user()
+
+    project = Project.gql("where user = :user_id and __key__ = :project_id",
+                user_id=user, project_id=id).fetch(1)[0]
+
+    if project:
+      project.row += 1
+      project.put()
+      self.response.out.write(project.row)
+
 
 def main():
   application = webapp.WSGIApplication([
@@ -110,6 +123,7 @@ def main():
     ('/project', ProjectPage),
     ('/actions/createProject.do', CreateProjectAction),
     ('/actions/modifyProject.do', ModifyProjectAction),
+    ('/actions/IncrementRow.do', IncrementRowAction),
   ], debug=_DEBUG)
   wsgiref.handlers.CGIHandler().run(application)
 
