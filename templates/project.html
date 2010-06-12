@@ -18,7 +18,8 @@
 	</tr>
 	<tr>
 	  <td><input name="id" type="hidden" value="{{ project.get_id }}"/>
-	    {{ project.description }} </td>
+	    {{ project.description }}
+	  </td>
 	  <td> <input id="_row" name="row" value="{{ project.row }}"/></td>
 	  <td class="update">
 	    <span class="button"><input type="submit" name="action" value="Save"/> </span>
@@ -37,8 +38,8 @@
       Click here to start counting
     <div id="_text" class="count">{{ project.row }} </div>
     </div>
-    </form>
-    </div>	
+  </form>
+</div>
 {% endblock %}
 
 {% block footer %}

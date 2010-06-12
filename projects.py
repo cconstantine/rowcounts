@@ -21,19 +21,15 @@ _DEBUG = True
 
 from BaseRequestHandler import BaseRequestHandler
 
-class Pattern(db.Model):
-  name = db.StringProperty()
-  patternURL = db.TextProperty()
-  
 
 class Project(db.Model):
   user = db.UserProperty(required=True)
-  pattern = db.ReferenceProperty(Pattern, required=False)
   description = db.TextProperty()
   row = db.IntegerProperty()
 
   def get_id(self):
     return self.key().__str__()
+
 
 class ProjectsPage(BaseRequestHandler):
   def get(self):
