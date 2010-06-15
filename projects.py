@@ -10,11 +10,13 @@ import string
 import sys
 import wsgiref.handlers
 
+from django.utils import simplejson
 from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import login_required
+import logging
 
 # Set to true if we want to have our webapp print stack traces, etc
 _DEBUG = True
@@ -111,12 +113,16 @@ class IncrementRowAction(BaseRequestHandler):
 
   def post(self):
     id = db.Key(self.request.get('id'))
+    rid = self.request.get('rid')
+
     user = users.get_current_user()
     project = Project.gql("where user = :user_id and __key__ = :project_id",
                           user_id=user, project_id=id).fetch(1)[0]
 
     if project:
-      self.response.out.write(db.run_in_transaction_custom_retries(1000,self.incRow, project))
+      self.response.out.write(simplejson.dumps(
+          {'row' : db.run_in_transaction_custom_retries(1000,self.incRow, project),
+           'rid' : rid}))
 
 
 def main():

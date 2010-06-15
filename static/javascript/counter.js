@@ -1,34 +1,36 @@
 google.load("jquery", "1.4.2");
 
+var rid = 0;
+
 function onKeyDown( evt , id)
 {
     var keynum = (window.event)?evt.keyCode:evt.which;
 
     if (keynum==32) {
 	rowCount = parseInt( $("div.count").html() );
+	rid += 1;
+
 	$("div.count").html(rowCount + 1);
+	$("div.rid").html(rid);
 
 	$.ajax({type: "POST",
 		    url: "/actions/IncrementRow.do",
-		    data: "id=" + id,
+		    data: {"id": id, "rid" : rid},
 		    success: onIncrement
 		    })
 	  }
 }
 
-function onIncrement( newRow )
+function onIncrement( resp )
 {
-    cRow = parseInt($("div.count").html());
-    $("div.CounterMessage").html('Hit space to increment count ' +
-				 '(Expected ' +
-				 cRow + ')');
+    resp = JSON.parse(resp);
 
-    cRow = parseInt($("div.count").html());
-    nRow = parseInt(newRow);
+    crid = rid;
+    nrid = parseInt(resp['rid']);
 
-    if (nRow > cRow)
+    if (nrid == crid)
 	{
-	    $("div.count").html(newRow);
+	    $("div.count").html(resp['row']);
 	}
 }
 
