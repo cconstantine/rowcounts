@@ -85,17 +85,40 @@ class CreateProjectAction(BaseRequestHandler):
                              row=0)
         newProject.put()
 
-        ProjectComponent(user = user, 
-                         description="foo", 
-                         row=0, 
-                         in_project=newProject).save()
-
-        ProjectComponent(user = user, 
-                         description="bar", 
-                         row=0, 
-                         in_project=newProject).save()
 
     self.redirect('/')
+
+class CreateComponentAction(BaseRequestHandler):
+  def post(self):
+    project_id = db.Key(self.request.get('project_id'))
+    desc = self.request.get('desc')
+    user = users.get_current_user()
+
+    project = Project.gql("where user = :user_id and __key__ = :project_id",
+                          user_id=user, project_id=project_id).fetch(1)[0]
+
+    component = ProjectComponent(user=user,
+                               description=desc,
+                               row=1,
+                               in_project=project).save()
+    
+    self.redirect("/project?id=%s" % project.get_id())
+
+class DeleteComponentAction(BaseRequestHandler):
+  def post(self):
+    project_id = self.request.get('project_id')
+    component_id = db.Key(self.request.get('component_id'))
+
+    user = users.get_current_user()
+    component = ProjectComponent.gql(
+      "where user = :user_id and __key__ = :component_id",
+      user_id=user, component_id=component_id).fetch(1)[0]
+
+    if component:
+      component.delete()
+    
+    self.redirect("/project?id=%s" % project_id)
+
 
 class ModifyProjectAction(BaseRequestHandler):
   def post(self):
@@ -121,32 +144,48 @@ class ModifyProjectAction(BaseRequestHandler):
       self.redirect("/")
 
 class IncrementRowAction(BaseRequestHandler):
-  def incRow(self, project):
-    project.row += 1
-    project.put()
-    return project.row
+  def incRow(self, component):
+    component.row += 1
+    component.put()
+    return component.row
 
   def post(self):
     id = db.Key(self.request.get('id'))
     rid = self.request.get('rid')
 
     user = users.get_current_user()
-    project = Project.gql("where user = :user_id and __key__ = :project_id",
-                          user_id=user, project_id=id).fetch(1)[0]
+    component = ProjectComponent.gql(
+      "where user = :user_id and __key__ = :component_id",
+      user_id=user, component_id=id).fetch(1)[0]
 
-    if project:
+    if component:
       self.response.out.write(simplejson.dumps(
-          {'row' : db.run_in_transaction_custom_retries(1000,self.incRow, project),
-           'rid' : rid}))
+          {'row' : db.run_in_transaction_custom_retries(1000,self.incRow, component),
+           'rid' : rid,
+           'id' : self.request.get('id')}))
 
+class GetRowCount(webapp.RequestHandler):
+  def get(self):
+    id = db.Key(self.request.get('id'))
+    user = users.get_current_user()
 
+    component = ProjectComponent.gql(
+      "where user = :user_id and __key__ = :component_id",
+      user_id=user, component_id=id).fetch(1)[0]
+
+    if component:
+      self.response.out.write(component.row)
+    
 def main():
   application = webapp.WSGIApplication([
     ('/', ProjectsPage),
     ('/project', ProjectPage),
     ('/actions/createProject.do', CreateProjectAction),
+    ('/actions/createComponent.do', CreateComponentAction),
+    ('/actions/deleteComponent.do', DeleteComponentAction),
     ('/actions/modifyProject.do', ModifyProjectAction),
     ('/actions/IncrementRow.do', IncrementRowAction),
+    ('/row', GetRowCount),
   ], debug=_DEBUG)
   wsgiref.handlers.CGIHandler().run(application)
 

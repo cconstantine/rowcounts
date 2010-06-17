@@ -218,12 +218,33 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
   color: #676767;
 }
 
-.inbox .CounterMessage {
+.CounterMessage {
     text-align: center;
     font-weight: bold;
 }
 
-.inbox .count {
+.count {
     text-align: center;
     font-size: 200pt;
+}
+
+#left {
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+
+#right {
+    float: right;
+    width: 75%;
+    text-align: left;
+    background-color: #676767;
+}
+
+.ComponentSelected {
+    background-color: #676767;
+}
+
+.DeleteButton {
+    margin-left: 0px;
 }

@@ -9,52 +9,36 @@
 {% endblock %}
 
 {% block body %}
-<div class="inbox">
-  <form action="/actions/modifyProject.do" method="post">
-    <div class="table">
-      <table>
-	<tr>
-	  <th>Project Description</th>
-	  <th>Current Row Count</th>
-	  <th></th>
-	</tr>
-	<tr>
-	  <td><input name="id" type="hidden" value="{{ project.get_id }}"/>
-	    {{ project.description }}
-	  </td>
-	  <td> <input id="_row" name="row" value=""/></td>
-	  <td class="update">
-	    <span class="button">
-	      <input type="submit" name="action" value="Save"/>
-	    </span>
-	    <span class="button">
-	      <input type="submit" name="action" value="Delete"/>
-	    </span>
-	  </td>
-	</tr>
-      </table>
-    </div>
-    {% for component in project.components %}
-    <div class="counter"
-	 id='{{component.get_id}}'
-	 onkeydown="onKeyDown(event, '{{component.get_id}}')"
-	 onload="divSelected()"
-	 onFocus="$('div#{{component.get_id}} .CounterMessage').html('Hit space to Increment')"
-	 onBlur="$('div#{{component.get_id}} .CounterMessage').html('Click here to start counting')"
-	 tabindex="1">
-      <div class="CounterMessage">
-	Click here to start counting
-      </div>
-      <div class="desc">
-	{{ component.description }}
-      </div>
-      <div class="count" id='{{component.get_id}}'>
-	{{ component.row }}
-      </div>
-    </div>
-      {% endfor %}
-  </form>
+<div id="left">
+  <div class="ComponentHeader">Component</div>
+  {% for component in project.components %}
+  <div class="ComponentDescription"
+       id="{{component.get_id}}"
+       onkeydown="onKeyDown(event, '{{component.get_id}}')"
+       onFocus="selectComponent('{{component.get_id}}')"
+       onBlur="this.className='ComponentDescription'"
+       tabindex="{{forloop.counter}}"
+       >
+    <form action="/actions/deleteComponent.do" method="post">
+      <input type="hidden" name="project_id" value="{{project.get_id}}"/>
+      <input type="hidden" name="component_id" value="{{component.get_id}}"/>
+      <input type="submit" value="X"/>
+    </form>    
+{{ component.description }}
+  </div>
+{% endfor %}
+  <div class="CreateComponent">
+    <form action="/actions/createComponent.do" method="post">
+      <input type="hidden" name="project_id" value="{{project.get_id}}"/>
+      <input name="desc" type="text"/>
+      <input type="submit" value="Create"/>
+    </form>
+  </div>
 </div>
+<div id="right">
+    <div class="count"> </div>
+</div>
+
 {% endblock %}
 
 {% block footer %}

@@ -7,10 +7,10 @@ function onKeyDown( evt , id )
     var keynum = (window.event)?evt.keyCode:evt.which;
 
     if (keynum==32) {
-	rowCount = parseInt( $("div#" + id + " .count").html() );
+	rowCount = parseInt( $(".count").html() );
 	rid += 1;
 
-	$("div#" + id + " .count").html(rowCount + 1);
+	$(".count").html(rowCount + 1);
 
 	$.ajax({type: "POST",
 		    url: "/actions/IncrementRow.do",
@@ -26,11 +26,26 @@ function onIncrement( resp )
 
     crid = rid;
     nrid = parseInt(resp['rid']);
+    id = resp['id'];
 
     if (nrid == crid)
 	{
-	    $("div#" + id + " .count").html(resp['row']);
+	    $(".count").html(resp['row']);
 	}
+}
+
+function updateCount(count)
+{
+    $('.count').html(count);
+}
+
+function selectComponent(id)
+{
+    $('#' + id).attr('class', "ComponentSelected");
+    $.ajax({type: 'GET',
+		url: "/row",
+		data: {'id' : id}, 
+		success: updateCount});
 }
 
 function getRow()
