@@ -2,16 +2,15 @@ google.load("jquery", "1.4.2");
 
 var rid = 0;
 
-function onKeyDown( evt , id)
+function onKeyDown( evt , id )
 {
     var keynum = (window.event)?evt.keyCode:evt.which;
 
     if (keynum==32) {
-	rowCount = parseInt( $("div.count").html() );
+	rowCount = parseInt( $("div#" + id + " .count").html() );
 	rid += 1;
 
-	$("div.count").html(rowCount + 1);
-	$("div.rid").html(rid);
+	$("div#" + id + " .count").html(rowCount + 1);
 
 	$.ajax({type: "POST",
 		    url: "/actions/IncrementRow.do",
@@ -30,7 +29,7 @@ function onIncrement( resp )
 
     if (nrid == crid)
 	{
-	    $("div.count").html(resp['row']);
+	    $("div#" + id + " .count").html(resp['row']);
 	}
 }
 

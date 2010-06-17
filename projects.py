@@ -23,11 +23,21 @@ _DEBUG = True
 
 from BaseRequestHandler import BaseRequestHandler
 
-
+  
 class Project(db.Model):
   user = db.UserProperty(required=True)
   description = db.TextProperty()
+
+  def get_id(self):
+    return self.key().__str__()
+
+class ProjectComponent(db.Model):
+  user = db.UserProperty(required=True)
+  description = db.TextProperty()
   row = db.IntegerProperty()
+
+  in_project = db.ReferenceProperty(Project,
+                                   collection_name='components')
 
   def get_id(self):
     return self.key().__str__()
@@ -37,17 +47,13 @@ class ProjectsPage(BaseRequestHandler):
   def get(self):
     current_user = users.get_current_user()
     self.response.headers['Content-Type'] = 'text/html'
-      
-    if (current_user):
-      projects = Project.gql("WHERE user = :user",
-                       user=current_user);
 
-      self.generate('projects.html', {
-          'projects': projects.fetch(1000),
-          })
-    else:
-      self.generate('projects.html', {
-          })
+    context = {}
+    if (current_user):
+      projects = Project.gql("WHERE user = :user",user=current_user);
+      context['projects'] = projects.fetch(1000)
+
+    self.generate('projects.html', context)
       
 
 class ProjectPage(BaseRequestHandler):
@@ -78,15 +84,24 @@ class CreateProjectAction(BaseRequestHandler):
                              description=self.request.get('description'),
                              row=0)
         newProject.put()
-      
+
+        ProjectComponent(user = user, 
+                         description="foo", 
+                         row=0, 
+                         in_project=newProject).save()
+
+        ProjectComponent(user = user, 
+                         description="bar", 
+                         row=0, 
+                         in_project=newProject).save()
+
     self.redirect('/')
-      
+
 class ModifyProjectAction(BaseRequestHandler):
   def post(self):
     button = self.request.get('action')
     row = int(self.request.get('row'))
 
-    id = db.Key(self.request.get('id'))
     user = users.get_current_user()
 
     project = Project.gql("where user = :user_id and __key__ = :project_id",

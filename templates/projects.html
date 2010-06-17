@@ -6,30 +6,13 @@
   <div class="inbox">
     <input type="hidden" name="next" value="{{ request.uri|escape }}"/>
     <div class="table">
-      <table>
-	<tr>
-	  <th>Project Description</th>
-	  <th>Current Row Count</th>
-	  <th></th>
-	</tr>
-	{% if user %}
-	<tr>
-	  <td><input name="description" type="text"/></td>
-	  <td></td>
-	  <td><input type="submit"
-		     value="Create Project"/></td>
-	</tr>
-	{%endif %}
-	{% for project in projects %}
-	<tr id="row{{ forloop.counter }}">
-	  <td class="id">
-	    <a href="/project?id={{ project.get_id }}">{{ project.description|escape }}</a>
-	  </td>
-	  <td class="countSummary">
-	    {{project.row|escape}}
-	  </td>
-	</tr>
-	{% endfor %}
+      <input name="description" type="text"/>
+      <input type="submit" value="Create Project"/>
+      <br/>
+      {% for project in projects %}
+      <a href="/project?id={{ project.get_id }}">{{ project.description|escape }}</a>
+      <br/>
+      {% endfor %}
       </table>
     </div>
 </form>

@@ -34,19 +34,25 @@
 	</tr>
       </table>
     </div>
+    {% for component in project.components %}
     <div class="counter"
-	 onkeydown="onKeyDown(event, '{{project.get_id}}')"
+	 id='{{component.get_id}}'
+	 onkeydown="onKeyDown(event, '{{component.get_id}}')"
 	 onload="divSelected()"
-	 onFocus="$('div.CounterMessage').html('Hit space to increment count ')"
-	 onBlur="$('div.CounterMessage').html('Click here to start counting')"
+	 onFocus="$('div#{{component.get_id}} .CounterMessage').html('Hit space to Increment')"
+	 onBlur="$('div#{{component.get_id}} .CounterMessage').html('Click here to start counting')"
 	 tabindex="1">
       <div class="CounterMessage">
 	Click here to start counting
       </div>
-      <div class="count">
-	{{ project.row }}
+      <div class="desc">
+	{{ component.description }}
+      </div>
+      <div class="count" id='{{component.get_id}}'>
+	{{ component.row }}
       </div>
     </div>
+      {% endfor %}
   </form>
 </div>
 {% endblock %}
