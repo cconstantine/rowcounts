@@ -10,7 +10,7 @@
 
 {% block body %}
 <div id="left">
-  <div class="ComponentHeader">Component</div>
+  <div class="ComponentHeader">{{project.description}}</div>
   {% for component in project.components %}
   <div class="ComponentDescription"
        id="{{component.get_id}}"
