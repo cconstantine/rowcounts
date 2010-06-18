@@ -196,7 +196,7 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
 }
 
 .inbox table th {
-  background-color: #FF99CC;
+  background-color: #99ccff;
 }
 
 .inbox table td {
@@ -238,11 +238,11 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
     float: right;
     width: 75%;
     text-align: left;
-    background-color: #676767;
+    background-color: #CCCCFF;
 }
 
 .ComponentSelected {
-    background-color: #676767;
+    background-color: #CCCCFF;
 }
 
 .DeleteButton {
