@@ -8,6 +8,7 @@
 </head>
 <body {% block bodyattributes %}{% endblock %}>
 {% block header %}
+<div id="header">
 <div class="login">
   {% if user %}
   <span class="project nickname">{{ user.nickname }}</span>
@@ -17,8 +18,15 @@
   {% endif %}
 </div>
 
-<div class="title"><a href="/">Your Projects</a></div>
+<div class="title">
+  <a href="/">Your Projects</a>
+  <div id="MainTitle">
+    Row Counts
+  </div>
+</div>
+</div>
 {% endblock %}
+
 <div id="body">
   {% block body %}{% endblock %}
 </div>
