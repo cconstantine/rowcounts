@@ -1,23 +1,39 @@
-google.load("jquery", "1.4.2");
-
 var rid = 0;
 
-function onKeyDown( evt , id )
-{
-    var keynum = (window.event)?evt.keyCode:evt.which;
+function init() {
+    $(document).keydown(function(event) {
 
-    if (keynum==32) {
-	rowCount = parseInt( $(".count").html() );
-	rid += 1;
+	    if (            event.which == 32) {
+		event.preventDefault();
+		
 
-	$(".count").html(rowCount + 1);
+		var id = $('.ComponentSelected').attr("id");
+		client_side_inc( id );
+	    }
+	});
+    
+    
+    var id = $('.ComponentSelected').attr("id");
 
-	$.ajax({type: "POST",
-		    url: "/actions/IncrementRow.do",
-		    data: {"id": id, "rid" : rid},
-		    success: onIncrement
-		    })
-	  }
+    selectComponent(id);
+}
+
+$(document).ready(init());
+
+function client_side_inc( id )
+{     
+    rowCount = parseInt( $(".count").html() );
+    rid += 1;
+    
+    $(".count").html(rowCount + 1);
+    
+    $.ajax(
+	   {
+	       type: "POST",
+		   url: "/actions/IncrementRow.do",
+		   data: {"id": id, "rid" : rid},
+		   success: onIncrement
+		   });
 }
 
 function onIncrement( resp )
@@ -34,24 +50,20 @@ function onIncrement( resp )
 	}
 }
 
-function updateCount(count)
-{
-    $('.count').html(count);
-}
 
 function selectComponent(id)
 {
-    $('#' + id).attr('class', "ComponentSelected");
+
+    $('.ComponentSelected').attr('class', "ComponentDescription");
+    $('#' + id).filter('[id='+id+']').attr('class', "ComponentSelected");
+
     $.ajax({type: 'GET',
 		url: "/row",
 		data: {'id' : id}, 
 		success: updateCount});
 }
 
-function getRow()
+function updateCount(count)
 {
-    var rowNode = document.getElementById('_row');
-    iCount = parseInt(rowNode.value);
-    return iCount;
+    $('.count').html(count);
 }
-

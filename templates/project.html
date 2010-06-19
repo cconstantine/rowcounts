@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-<script type="text/javascript" src="http://www.google.com/jsapi">
-</script>
-<script src="static/javascript/counter.js" type="text/javascript">
+<script type="text/javascript" src="static/javascript/jquery-1.4.2.min.js">
 </script>
 
 {% endblock %}
@@ -12,21 +10,19 @@
 <div id="left">
   <div class="ComponentHeader">{{project.description}}</div>
   {% for component in project.components %}
-  <div class="ComponentDescription"
+  <div class="Component{% if forloop.first %}Selected{%endif%}"
        id="{{component.get_id}}"
-       onkeydown="onKeyDown(event, '{{component.get_id}}')"
        onFocus="selectComponent('{{component.get_id}}')"
-       onBlur="this.className='ComponentDescription'"
-       tabindex="{{forloop.counter}}"
-       >
-    <form action="/actions/deleteComponent.do" method="post">
-      <input type="hidden" name="project_id" value="{{project.get_id}}"/>
-      <input type="hidden" name="component_id" value="{{component.get_id}}"/>
-      <input type="submit" value="X"/>
-    </form>    
-{{ component.description }}
+       tabindex="{{forloop.counter}}">
+
+      <form action="/actions/deleteComponent.do" method="post">
+	<input type="hidden" name="project_id" value="{{project.get_id}}"/>
+	<input type="hidden" name="component_id" value="{{component.get_id}}"/>
+	<input type="submit" value="X"/>
+      </form>
+      {{ component.description }}
   </div>
-{% endfor %}
+  {% endfor %}
   <div class="CreateComponent">
     <form action="/actions/createComponent.do" method="post">
       <input type="hidden" name="project_id" value="{{project.get_id}}"/>
@@ -36,8 +32,10 @@
   </div>
 </div>
 <div id="right">
-    <div class="count"> </div>
+    <div class="count"> . </div>
 </div>
+<script src="static/javascript/counter.js" type="text/javascript">
+</script>
 
 {% endblock %}
 

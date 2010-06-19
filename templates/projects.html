@@ -2,20 +2,19 @@
 
 
 {% block body %}
-<form action="/actions/createProject.do" method="post">
-  <div class="inbox">
+<div class="Projects">
+  {% for project in projects %}
+  <a href="/project?id={{ project.get_id }}">{{ project.description|escape }}</a>
+  <br/>
+  {% endfor %}
+  <hr/>
+  <form action="/actions/createProject.do" method="post">      
     <input type="hidden" name="next" value="{{ request.uri|escape }}"/>
-    <div class="table">
-      <input name="description" type="text"/>
-      <input type="submit" value="Create Project"/>
-      <br/>
-      {% for project in projects %}
-      <a href="/project?id={{ project.get_id }}">{{ project.description|escape }}</a>
-      <br/>
-      {% endfor %}
-      </table>
-    </div>
-</form>
+    <input name="description" type="text"/><br/>
+    <input type="submit" value="Create Project"/>
+  </form>
+</div>
+
 {% endblock %}
 
 {% block footer %}

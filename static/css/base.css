@@ -1,7 +1,7 @@
 /* Copyright 2007 Google */
 
 body {
-  background-color: white;
+  background-color: #e0edfe;
   color: black;
   margin: 20px;
 }
@@ -16,26 +16,17 @@ form {
   padding: 0;
 }
 
-a:link {
-  color: #0000cc;
-}
-
-a:active {
-  color: red;
-}
-
-a:visited {
-  color: #551a8b;
-}
-
 #header {
   position: relative;
 }
-
+#header #ProjectsHeader {
+   text-align : left;
+}
 #header #MainTitle {
     font-weight: bold;
     text-align: center;
-    font-size: 100pt;
+    color: black;
+    font-size: 40pt;
 }
 
 #header .login {
@@ -51,23 +42,10 @@ a:visited {
 #body {
   clear: both;
   position: relative;
-  margin-top: 10px;
 }
 
 #footer {
   margin-top: 4em;
-}
-
-a.button, input[type^="submit"], input[type^="button"] {
-  margin: 0;
-  padding: 2px 5px 2px 5px;
-  font-family: Arial, Sans-serif;
-  font-size: 12px;
-  text-decoration: none;
-  color: #222;
-  cursor: default;
-  background: #ddd url("/static/images/button-background.gif") repeat-x 0 0;
-  border: 1px solid #aaa;
 }
 
 a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
@@ -102,6 +80,10 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
   padding-left: 10px;
 }
 
+.Projects {
+    text-align: center;
+    font-size: medium;
+}
 .CounterMessage {
     text-align: center;
     font-weight: bold;
@@ -126,10 +108,16 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
     background-color: #CCCCFF;
 }
 
+.ComponentHeader {
+    font-size: 30pt;
+}
 .ComponentSelected {
+    font-size: large;
     background-color: #CCCCFF;
 }
+.DeleteComponent {
 
+}
 .DeleteButton {
     margin-left: 0px;
 }
