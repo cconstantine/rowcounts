@@ -83,7 +83,7 @@ function updateCount(count)
 
 function toggleModify(id) {
     button = $("#" + id + " .toggleModify");
-
+    selectComponent(id);
     if (button.attr("value") == "Modify")
 	{
 	    $(".toggleModify").attr("value", "Modify");
@@ -91,7 +91,7 @@ function toggleModify(id) {
 	    $('.Component .update').hide();
 	    
 	    $('.Component .update').hide();
-	    $('.Component .update').filter('[id='+id+']').show();
+	    $('.Component .update').filter('[id='+id+']').show('fast');
 	}
     else
 	{

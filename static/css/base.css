@@ -44,8 +44,8 @@ form {
     width: 50%;
     margin: 1%;
 
-  margin-left: auto ;
-  margin-right: auto ;
+    margin-left: auto ;
+    margin-right: auto ;
 }
 #header {
   position: relative;
@@ -114,8 +114,8 @@ form {
     width: 20%;
     margin: 1%;
 
-  margin-left: auto ;
-  margin-right: auto ;
+    margin-left: auto ;
+    margin-right: auto ;
 }
 
 .CounterMessage {
@@ -142,23 +142,28 @@ form {
     background-color: #CCCCFF;
 }
     
-/*.Component {
+.Component {
     left-margin: auto;
     right-margin: auto;
-    text-align: right;
 }
+
 .desc {
     width: 50%;
-    right-margin: 1%;
-    text-align: right;
     float: right;
+    text-align: left;
 }
+
 .toggleContainer {
     width: 50%;
-    float: left;
-    left-margin: 0px;
+    left-margin: auto;
+    right-margin: .5%;
 }
-*/
+
+.update {
+    display: none;
+    float : center;
+}
+
 .ComponentHeader{
     font-size: large;
     hover: grey;
@@ -184,7 +189,4 @@ form {
 
 .hideModify:hover {
     color : #3E75E1;
-}
-.update {
-    display: none;
 }

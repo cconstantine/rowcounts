@@ -10,36 +10,42 @@
 <div id="left">
   <span class="ComponentHeader">{{project.description}}</span>
   {% for component in project.components %}
-  <div class="Component">
-    <div class="{% if forloop.first %}Selected{%endif%}"
-	 id="{{component.get_id}}"
-	 onFocus="selectComponent('{{component.get_id}}')"
-	 tabindex="{{forloop.counter}}">
-      
-      <div class="container">
-	<div class="desc" id="{{component.get_id}}">
-	  {{ component.description }}
-	</div>
-	<div class="toggleContainer">
-	  <input type="button" class="toggleModify" value="Modify" 
-		 onclick="toggleModify('{{component.get_id}}');" />
+      <div class="Component">
+	<div class="{% if forloop.first %}Selected{%endif%}"
+	     id="{{component.get_id}}"
+	     onFocus="selectComponent('{{component.get_id}}')"
+	     tabindex="{{forloop.counter}}">
+	  
+	  <table>
+	    <tr>
+	      <td>
+		<div class="toggleContainer">
+		  <input type="button" class="toggleModify" value="Modify" 
+			 onclick="toggleModify('{{component.get_id}}');" />
+		</div>
+	      </td>
+	      <td>
+		<div class="desc" id="{{component.get_id}}">
+		  {{ component.description }}
+		</div>
+	      </td>
+	    </tr>
+	  </table>
+	  <div class="update" id="{{component.get_id}}">
+	    <form action="/actions/modifyComponent.do" method="post">
+	      <input type="hidden" name="project_id" value="{{project.get_id}}"/>
+	      <input type="hidden" name="component_id" value="{{component.get_id}}"/>
+	      Description:
+	      <input type="text" name="desc" value="{{component.description}}"/>
+	      Row:
+	      <input type="text" name="row" value=""/>
+	      <input type="submit" name="action" value="Update"/>
+	      <input type="submit" name="action" value="Delete"/>
+	    </form>
+	  </div>
+	  
 	</div>
       </div>
-      <div class="update" id="{{component.get_id}}">
-	<form action="/actions/modifyComponent.do" method="post">
-	  <input type="hidden" name="project_id" value="{{project.get_id}}"/>
-	  <input type="hidden" name="component_id" value="{{component.get_id}}"/>
-	  Description:
-	  <input type="text" name="desc" value="{{component.description}}"/>
-	  Row:
-	  <input type="text" name="row" value=""/>
-	  <input type="submit" name="action" value="Update"/>
-	  <input type="submit" name="action" value="Delete"/>
-	</form>
-      </div>
-      
-    </div>
-  </div>
   {% endfor %}
 
   <hr/>
