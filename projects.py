@@ -86,7 +86,12 @@ class CreateProjectAction(BaseRequestHandler):
           newProject = Project(user = user, 
                                description=self.request.get('description'),
                                row=0)
-          newProject.put()
+          newProject.save()
+
+          component = ProjectComponent(user=user,
+                                       description="Start",
+                                       row=1,
+                                       in_project=newProject).save()
     except:
       pass;
 
