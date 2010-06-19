@@ -60,33 +60,38 @@ class ProjectPage(BaseRequestHandler):
   def get(self):
     project = self.request.get('id')
 
-    if not project:
-      self.redirect('/')
-
     user = users.get_current_user()
-    
 
-    projects = Project.gql("where user = :user_id and __key__ = :project_id ", user_id=user, project_id=db.Key(project));
+    if (not project) or (not user):
+      return self.redirect('/')
+    
+    projects = Project.gql("where user = :user_id and __key__ = :project_id ", user_id=user, project_id=db.Key(project)).fetch(1);
+    
+    if len(projects) == 0:
+      return self.redirect('/')
 
     self.response.headers['Content-Type'] = 'text/html'
     self.generate('project.html', {
-      'project': projects.fetch(1)[0],
+      'project': projects[0],
     })
 
 
 class CreateProjectAction(BaseRequestHandler):
   def post(self):    
-    user = users.get_current_user()
-    if user:
-      desc = self.request.get('description')
-      if desc and len(desc) > 0:
-        newProject = Project(user = user, 
-                             description=self.request.get('description'),
-                             row=0)
-        newProject.put()
-
+    try:
+      user = users.get_current_user()
+      if user:
+        desc = self.request.get('description')
+        if desc and len(desc) > 0:
+          newProject = Project(user = user, 
+                               description=self.request.get('description'),
+                               row=0)
+          newProject.put()
+    except:
+      pass;
 
     self.redirect('/')
+
 
 class CreateComponentAction(BaseRequestHandler):
   def post(self):
@@ -94,6 +99,8 @@ class CreateComponentAction(BaseRequestHandler):
     desc = self.request.get('desc')
     user = users.get_current_user()
 
+    if desc == "":
+      self.redirect("/project?id=%s" % project_id)
     project = Project.gql("where user = :user_id and __key__ = :project_id",
                           user_id=user, project_id=project_id).fetch(1)[0]
 
@@ -103,6 +110,7 @@ class CreateComponentAction(BaseRequestHandler):
                                in_project=project).save()
     
     self.redirect("/project?id=%s" % project.get_id())
+
 
 class DeleteComponentAction(BaseRequestHandler):
   def post(self):
@@ -171,10 +179,10 @@ class GetRowCount(webapp.RequestHandler):
 
     component = ProjectComponent.gql(
       "where user = :user_id and __key__ = :component_id",
-      user_id=user, component_id=id).fetch(1)[0]
+      user_id=user, component_id=id).fetch(1)
 
     if component:
-      self.response.out.write(component.row)
+      self.response.out.write(component[0].row)
     
 def main():
   application = webapp.WSGIApplication([

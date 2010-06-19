@@ -1,7 +1,30 @@
-/* Copyright 2007 Google */
+/*a:link { 
+    color:#3E75E1;
+    text-decoration:none; 
+}
+*/
+a {
+    color:#2D53A1;
+    text-decoration:none;
+}
+
+a:hover {
+    color:#3E75E1;
+}
+
+.Projects a {
+    color: black;
+}
+
+.Projects a:hover {
+    color: grey;
+}
+
+#header .login a {
+    text-decoration: underline;
+}
 
 body {
-  background-color: #e0edfe;
   color: black;
   margin: 20px;
 }
@@ -9,13 +32,21 @@ body {
 body, input, textarea {
   font-family: Arial, sans-serif;
   font-size: small;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 form {
   margin: 0;
   padding: 0;
 }
-
+.create {
+    float: bottom;
+}
+.Welcome {
+    font-weight: bold;
+    font-size: 40pt;
+}
 #header {
   position: relative;
 }
@@ -26,7 +57,7 @@ form {
     font-weight: bold;
     text-align: center;
     color: black;
-    font-size: 40pt;
+    font-size: 30pt;
 }
 
 #header .login {
@@ -46,10 +77,6 @@ form {
 
 #footer {
   margin-top: 4em;
-}
-
-a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
-  border-color: #9cf #69e #69e #7af;
 }
 
 .form .field {
@@ -83,7 +110,18 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
 .Projects {
     text-align: center;
     font-size: medium;
+    float: center;
+    
 }
+.Projects .project {
+    border: 2px solid #e0edfe;
+    width: 20%;
+    margin: 1%;
+
+  margin-left: auto ;
+  margin-right: auto ;
+}
+
 .CounterMessage {
     text-align: center;
     font-weight: bold;
@@ -108,8 +146,9 @@ a.button:hover, input[type^="submit"]:hover, input[type^="button"]:hover {
     background-color: #CCCCFF;
 }
 
-.ComponentHeader {
+.ComponentHeader{
     font-size: 30pt;
+    hover: grey;
 }
 .ComponentSelected {
     font-size: large;

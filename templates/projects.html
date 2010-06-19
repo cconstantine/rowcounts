@@ -4,15 +4,24 @@
 {% block body %}
 <div class="Projects">
   {% for project in projects %}
+  <div class="project">
   <a href="/project?id={{ project.get_id }}">{{ project.description|escape }}</a>
-  <br/>
+  </div></br>
   {% endfor %}
-  <hr/>
-  <form action="/actions/createProject.do" method="post">      
-    <input type="hidden" name="next" value="{{ request.uri|escape }}"/>
-    <input name="description" type="text"/><br/>
-    <input type="submit" value="Create Project"/>
-  </form>
+  {% if user %}
+
+  <div class="create">
+    <form action="/actions/createProject.do" method="post">      
+      <input type="hidden" name="next" value="{{ request.uri|escape }}"/>
+      <input name="description" type="text"/><br/>
+      <input type="submit" value="Create Project"/>
+    </form>
+  </div>
+{% else %}
+  <div class="Welcome">
+    Sign in to get started!
+</div>
+{%endif%}
 </div>
 
 {% endblock %}

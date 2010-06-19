@@ -12,9 +12,9 @@
 <div class="login">
   {% if user %}
   <span class="project nickname">{{ user.nickname }}</span>
-  <span class="item"><a href="{{ logout_url|escape }}">Sign out</a></span>
+  <a href="{{ logout_url|escape }}">Sign out</a>
   {% else %}
-  <span class="item"><a href="{{ login_url|escape }}">Sign in</a></span>
+  <a href="{{ login_url|escape }}">Sign in</a>
   {% endif %}
 </div>
 

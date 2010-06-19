@@ -23,6 +23,8 @@
       {{ component.description }}
   </div>
   {% endfor %}
+
+  <hr/>
   <div class="CreateComponent">
     <form action="/actions/createComponent.do" method="post">
       <input type="hidden" name="project_id" value="{{project.get_id}}"/>
