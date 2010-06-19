@@ -1,21 +1,33 @@
 var rid = 0;
+var inc = true;
+function onKeyDown(event)
+{
+    var id = $('.Selected').attr("id");
+    if (inc &&  event.which == 32) {
+	client_side_inc( id );
+    }
+    else {
+	selectComponent(id);
+    }
+}
+function cancelKeyDown()
+{
+   inc = false;
+}
+
+function enableKeyDown()
+{
+    inc = true;
+}
 
 function init() {
-    $(document).keydown(function(event) {
-
-	    if (            event.which == 32) {
-		event.preventDefault();
-		
-
-		var id = $('.ComponentSelected').attr("id");
-		client_side_inc( id );
-	    }
-	});
+    enableKeyDown();
+    $(document).keydown(onKeyDown);
     
-    
-    var id = $('.ComponentSelected').attr("id");
+    $("input").focus(cancelKeyDown);
+    $("input").blur(enableKeyDown);
 
-    selectComponent(id);
+    selectComponent($('.Selected').attr("id"));
 }
 
 $(document).ready(init());
@@ -54,8 +66,8 @@ function onIncrement( resp )
 function selectComponent(id)
 {
 
-    $('.ComponentSelected').attr('class', "ComponentDescription");
-    $('#' + id).filter('[id='+id+']').attr('class', "ComponentSelected");
+    $('.Selected').attr('class', "");
+    $('#' + id).filter('[id='+id+']').attr('class', "Selected");
 
     $.ajax({type: 'GET',
 		url: "/row",
@@ -66,4 +78,25 @@ function selectComponent(id)
 function updateCount(count)
 {
     $('.count').html(count);
+}
+
+
+function toggleModify(id) {
+    button = $("#" + id + " .toggleModify");
+
+    if (button.attr("value") == "Modify")
+	{
+	    $(".toggleModify").attr("value", "Modify");
+	    button.attr("value", "Cancel");
+	    $('.Component .update').hide();
+	    
+	    $('.Component .update').hide();
+	    $('.Component .update').filter('[id='+id+']').show();
+	}
+    else
+	{
+	    $(".toggleModify").attr("value", "Modify");
+	    $('.Component .update').hide();
+	}
+
 }

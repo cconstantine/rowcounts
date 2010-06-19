@@ -117,10 +117,14 @@ class CreateComponentAction(BaseRequestHandler):
     self.redirect("/project?id=%s" % project.get_id())
 
 
-class DeleteComponentAction(BaseRequestHandler):
+class ModifyComponentAction(BaseRequestHandler):
   def post(self):
     project_id = self.request.get('project_id')
     component_id = db.Key(self.request.get('component_id'))
+
+    action = self.request.get('action')
+    desc = self.request.get('desc')
+    row = self.request.get('row')
 
     user = users.get_current_user()
     component = ProjectComponent.gql(
@@ -128,7 +132,16 @@ class DeleteComponentAction(BaseRequestHandler):
       user_id=user, component_id=component_id).fetch(1)[0]
 
     if component:
-      component.delete()
+      if action == 'Delete':
+        component.delete()
+      else:
+        component.description=desc
+        if row != "":
+          try:
+            component.row = int(row)
+          except:
+            pass
+        component.save()
     
     self.redirect("/project?id=%s" % project_id)
 
@@ -195,7 +208,7 @@ def main():
     ('/project', ProjectPage),
     ('/actions/createProject.do', CreateProjectAction),
     ('/actions/createComponent.do', CreateComponentAction),
-    ('/actions/deleteComponent.do', DeleteComponentAction),
+    ('/actions/modifyComponent.do', ModifyComponentAction),
     ('/actions/modifyProject.do', ModifyProjectAction),
     ('/actions/IncrementRow.do', IncrementRowAction),
     ('/row', GetRowCount),

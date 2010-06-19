@@ -9,7 +9,6 @@
   </div></br>
   {% endfor %}
   {% if user %}
-
   <div class="create">
     <form action="/actions/createProject.do" method="post">      
       <input type="hidden" name="next" value="{{ request.uri|escape }}"/>

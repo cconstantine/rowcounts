@@ -36,12 +36,10 @@ form {
   margin: 0;
   padding: 0;
 }
-.create {
-    float: bottom;
-}
+
 .Welcome {
     font-weight: bold;
-    font-size: 40pt;
+    font-size: 20pt;
 
     width: 50%;
     margin: 1%;
@@ -75,10 +73,6 @@ form {
 #body {
   clear: both;
   position: relative;
-}
-
-#footer {
-  margin-top: 4em;
 }
 
 .form .field {
@@ -138,7 +132,7 @@ form {
 #left {
     float: left;
     width: 25%;
-    text-align: center;
+
 }
 
 #right {
@@ -147,18 +141,50 @@ form {
     text-align: left;
     background-color: #CCCCFF;
 }
-
+    
+/*.Component {
+    left-margin: auto;
+    right-margin: auto;
+    text-align: right;
+}
+.desc {
+    width: 50%;
+    right-margin: 1%;
+    text-align: right;
+    float: right;
+}
+.toggleContainer {
+    width: 50%;
+    float: left;
+    left-margin: 0px;
+}
+*/
 .ComponentHeader{
-    font-size: 30pt;
+    font-size: large;
     hover: grey;
 }
-.ComponentSelected {
+.Selected {
+    font-weight: normal;
     font-size: large;
     background-color: #CCCCFF;
 }
-.DeleteComponent {
-
+.enableModify {
+    color : #2D53A1;
+    left-margin: auto;
+    right-margin: auto;
 }
-.DeleteButton {
-    margin-left: 0px;
+
+.enableModify:hover {
+    color : #3E75E1;
+}
+
+.hideModify {
+    color : #2D53A1;
+}
+
+.hideModify:hover {
+    color : #3E75E1;
+}
+.update {
+    display: none;
 }
