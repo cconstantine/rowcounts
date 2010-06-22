@@ -30,6 +30,11 @@ body, input, textarea {
   font-size: small;
   margin-left: 20%;
   margin-right: 20%;
+  size: 10;
+}
+
+input[type=text] {
+    width: 50%;
 }
 
 form {
@@ -161,7 +166,6 @@ form {
 
 .update {
     display: none;
-    float : center;
 }
 
 .ComponentHeader{
